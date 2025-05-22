@@ -82,7 +82,7 @@ setup(
 					  'peakutils',
 					  'pandas',
 					  'pysam==0.22.1',
-					  'regex==2.5.0',
+					  'regex',
 					  'PyPDF2',
 					  'reportlab',
 					  'generatr==1.0',
