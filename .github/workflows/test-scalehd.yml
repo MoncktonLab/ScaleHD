@@ -8,10 +8,9 @@ name: Build and Test ScaleHD
 
 on:
   push:
-    branches:
-      - main
+  pull_request:
   schedule:
-    - cron: "0 0 1 * *"  # Run on the 1st of every month at 00:00 UTC
+    - cron: '0 0 1 * *'  # At 00:00 on day 1 of every month
 
 jobs:
   build-test-push:
