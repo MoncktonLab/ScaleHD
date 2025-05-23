@@ -87,7 +87,7 @@ setup(
 					  'reportlab',
 					  'generatr==1.0',
 					  'batchadapt==1.2',  # 1.0 was yanked
-					  'cutadapt==3.7',
+					  'cutadapt==4.9',
 					  'PyVCF3',
 					  'fadapa',
 					  'pytest',
