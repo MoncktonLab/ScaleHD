@@ -84,12 +84,12 @@ ENV PATH="/opt/miniconda/envs/scalenv/bin:$PATH"
 COPY run_scalehd_tests.sh run_scalehd_tests.sh
 
 # Copy test data and references
-COPY FastqFiles/ScaleHDTestData_10kMiSeq_R1.fastq.gz MiSeq_runX/FastqFiles/ScaleHDTestData_10kMiSeq_R1.fastq.gz
-COPY FastqFiles/ScaleHDTestData_10kMiSeq_R2.fastq.gz MiSeq_runX/FastqFiles/ScaleHDTestData_10kMiSeq_R2.fastq.gz
-COPY References/4k-HD-INTER.fa MiSeq_runX/References/4k-HD-INTER.fa
-COPY References/4k-HD-Reverse.fasta MiSeq_runX/References/4k-HD-Reverse.fasta
-COPY ConfigurationFile_MiSeq_runX.xml MiSeq_runX/ConfigurationFile_MiSeq_runX.xml
-COPY scalehd_test_expected_checksums.csv MiSeq_runX/scalehd_test_expected_checksums.csv
+COPY FastqFiles/ScaleHDTestData_10kMiSeq_R1.fastq.gz ContinuousTesting/FastqFiles/ScaleHDTestData_10kMiSeq_R1.fastq.gz
+COPY FastqFiles/ScaleHDTestData_10kMiSeq_R2.fastq.gz ContinuousTesting/FastqFiles/ScaleHDTestData_10kMiSeq_R2.fastq.gz
+COPY References/4k-HD-INTER.fa ContinuousTesting/References/4k-HD-INTER.fa
+COPY References/4k-HD-Reverse.fasta ContinuousTesting/References/4k-HD-Reverse.fasta
+COPY ConfigurationFile_MiSeq_runX.xml ContinuousTesting/ConfigurationFile_MiSeq_runX.xml
+COPY scalehd_test_expected_checksums.csv ContinuousTesting/scalehd_test_expected_checksums.csv
 
 # Set working directory
 WORKDIR /
