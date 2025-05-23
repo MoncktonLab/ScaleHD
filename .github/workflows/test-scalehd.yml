@@ -1,24 +1,37 @@
 # This workflow runs ScaleHD tests to check if changes in code or dependency versions affect the output
 # It triggers on push, pull request, and monthly schedule
-# Uses a public Docker image of ScaleHD tagged 'test'
-# mlwood1/scalehd:test pulls the latest version of ScaleHD from the master branch on github
+# Builds a public Docker image of ScaleHD tagged 'test' using the latest version of ScaleHD from the master branch on github
 # mlwood1/scalehd:test runs ScaleHD on a minimal data set and compares the actual output with an expected output
+# Pushes the Docker image to dockerhub as mlwood1/scalehd:test
 
-name: Run ScaleHD Tests
+name: Build and Test ScaleHD
 
 on:
   push:
-  pull_request:
+    branches:
+      - main
   schedule:
-    - cron: '0 0 1 * *'  # At 00:00 on day 1 of every month
+    - cron: "0 0 1 * *"  # Run on the 1st of every month at 00:00 UTC
 
 jobs:
-  run-tests:
+  build-test-push:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Pull Docker image
-        run: docker pull mlwood1/scalehd:test
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Run ScaleHD Tests
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Build Docker image
+        run: docker build -t mlwood1/scalehd:test ./ContinuousTesting  # Adjust path if needed
+
+      - name: Run ScaleHD tests
         run: docker run --rm mlwood1/scalehd:test ./run_scalehd_tests.sh
+
+      - name: Push image to Docker Hub
+        run: |
+          docker tag mlwood1/scalehd:test mlwood1/scalehd:test
+          docker push mlwood1/scalehd:test
+
