@@ -11,7 +11,8 @@ on:
   pull_request:
   schedule:
     - cron: '0 0 1 * *'  # At 00:00 on day 1 of every month
-
+  workflow_dispatch: 
+  
 permissions:
   issues: write
 
