@@ -1,4 +1,4 @@
-<config data_dir="/MiSeq_runX/FastqFiles" forward_reference="/MiSeq_runX/References/4k-HD-INTER.fa" reverse_reference="/MiSeq_runX/References/4k-HD-Reverse.fasta">
+<config data_dir="/ContinuousTesting/FastqFiles" forward_reference="/ContinuousTesting/References/4k-HD-INTER.fa" reverse_reference="/ContinuousTesting/References/4k-HD-Reverse.fasta">
   <instance_flags demultiplex="False" quality_control="True" sequence_alignment="True" atypical_realignment="True" genotype_prediction="True" snp_calling="False"/>
   <demultiplex_flags forward_adapter="GCGACCCTGG" forward_position="5P" reverse_adapter="GCAGCGGCTG" reverse_position="5P" error_rate="0" min_overlap="10" min_length="" max_length=""/>
   <trim_flags trim_type="Adapter" quality_threshold="5" adapter_flag="-a" forward_adapter="GATCGGAAGAGCACACGTCTGAACTCCAGTCAC" reverse_adapter="AGATCGGAAGAGCGTCGTGTAGGGAAAGAGTGT" error_tolerance="0.39"/>
