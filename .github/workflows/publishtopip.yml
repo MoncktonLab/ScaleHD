@@ -21,11 +21,10 @@ jobs:
           pip install build twine
 
       - name: Build package
-        run: python -m build
+        run: python -m build src/
 
       - name: Publish to PyPI
         env:
           TWINE_USERNAME: __token__
           TWINE_PASSWORD: ${{ secrets.SCALEHD_PYPI_API_TOKEN }}
-        run: |
-          python -m twine upload dist/*
+        run: python -m twine upload src/dist/*
