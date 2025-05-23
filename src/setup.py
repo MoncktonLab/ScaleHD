@@ -8,7 +8,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 	long_description = f.read()
 
 ##
-## Begin the setup installation
+## Begin the setup installation 
 setup(
     name='ScaleHD',
 
