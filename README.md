@@ -100,9 +100,8 @@ If you do not have sudo access (to install requisite packages), you should run S
 ScaleHD docker
 ==============
 A Docker image containing third party dependencies and ScaleHD is available at https://hub.docker.com/repository/docker/mlwood1/scalehd/general
-    ~~~~
-    docker pull mlwood1/scalehd:v1.3
-    ~~~~
+```bash
+docker pull mlwood1/scalehd:v1.3
 
 Usage
 =====
