@@ -102,6 +102,7 @@ ScaleHD docker
 A Docker image containing third party dependencies and ScaleHD is available at https://hub.docker.com/repository/docker/mlwood1/scalehd/general
 ```bash
 docker pull mlwood1/scalehd:v1.3
+```
 
 Usage
 =====
