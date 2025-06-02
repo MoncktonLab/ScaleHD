@@ -38,27 +38,3 @@ jobs:
           docker tag mlwood1/scalehd:test mlwood1/scalehd:test
           docker push mlwood1/scalehd:test
 
-      - name: Notify team if workflow fails
-        if: failure()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: "scalehd-test workflow failed",
-              body: "scalehd-test workflow failed. Please investigate.\n\ncc @MoncktonLab/owners"
-            });
-
-      - name: Notify team if workflow succeeds
-        if: success()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: "scalehd-test workflow succeeded",
-              body: "scalehd-test workflow completed successfully.\n\ncc @MoncktonLab/owners"
-            });
-
