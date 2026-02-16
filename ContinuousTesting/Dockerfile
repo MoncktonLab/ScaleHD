@@ -79,10 +79,7 @@ RUN conda create -y -n scalenv --override-channels -c conda-forge python=3.12.8 
 RUN conda install -n scalenv --override-channels -c bioconda -c conda-forge freebayes -y
 
 # Clone and install ScaleHD inside conda environment
-RUN /opt/miniconda/bin/conda run -n scalenv bash -c "\
-    git clone https://github.com/MoncktonLab/ScaleHD.git && \ 
-    cd ScaleHD/src && \
-    python setup.py install"
+RUN /opt/miniconda/bin/conda run -n scalenv pip install ScaleHD
 
 # Make conda env the default Python
 ENV PATH="/opt/miniconda/envs/scalenv/bin:$PATH"
