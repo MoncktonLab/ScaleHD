@@ -31,7 +31,11 @@ jobs:
         run: docker pull mlwood1/scalehd:latest
 
       - name: Run ScaleHD tests
-        run: docker run --rm mlwood1/scalehd:latest ./run_scalehd_tests.sh
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/app \
+            -w /app \
+            mlwood1/scalehd:latest bash ./run_scalehd_tests.sh
 
       - name: Push image to Docker Hub
         run: |
