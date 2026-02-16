@@ -31,7 +31,7 @@ jobs:
         run: docker build -t mlwood1/scalehd:latest ./ContinuousTesting
 
       - name: Run ScaleHD tests
-        run: docker run --rm mlwood1/scalehd:latest ./run_scalehd_tests.sh
+        run: docker run --rm mlwood1/scalehd:latest ./ContinuousTesting/run_scalehd_tests.sh
 
       - name: Push image to Docker Hub
         run: |
