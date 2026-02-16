@@ -27,15 +27,11 @@ jobs:
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
-      - name: Pull Docker image
-        run: docker pull mlwood1/scalehd:latest
+      - name: Build Docker image
+        run: docker build -t mlwood1/scalehd:latest ./ContinuousTesting
 
       - name: Run ScaleHD tests
-        run: |
-          docker run --rm \
-            -v ${{ github.workspace }}:/app \
-            -w /app \
-            mlwood1/scalehd:latest bash ./ContinuousTesting/run_scalehd_tests.sh
+        run: docker run --rm mlwood1/scalehd:latest ./run_scalehd_tests.sh
 
       - name: Push image to Docker Hub
         run: |
