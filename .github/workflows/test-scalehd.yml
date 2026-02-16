@@ -1,8 +1,8 @@
 # This workflow runs ScaleHD tests to check if changes in code or dependency versions affect the output
 # It triggers on push, pull request, and monthly schedule
-# Builds a public Docker image of ScaleHD tagged 'test' using the latest version of ScaleHD from the master branch on github
-# mlwood1/scalehd:latest runs ScaleHD on a minimal data set and compares the actual output with an expected output
-# Pushes the Docker image to dockerhub as mlwood1/scalehd:test
+# Builds a public Docker image of ScaleHD tagged 'latest'
+# Runs ScaleHD on a minimal data set and compares the actual output with an expected output
+# Pushes the Docker image to dockerhub as mlwood1/scalehd:test and mlwood1/scalehd:latest
 
 name: Build and Test ScaleHD
 
@@ -12,7 +12,7 @@ on:
   schedule:
     - cron: '0 0 1 * *'  # At 00:00 on day 1 of every month
   workflow_dispatch: 
-  
+
 permissions:
   issues: write
 
@@ -28,13 +28,21 @@ jobs:
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
 
       - name: Build Docker image
+        # This builds using the Dockerfile inside ContinuousTesting
         run: docker build -t mlwood1/scalehd:latest ./ContinuousTesting
 
       - name: Run ScaleHD tests
-        run: docker run --rm mlwood1/scalehd:latest ./ContinuousTesting/run_scalehd_tests.sh
+        # -v mounts your GitHub repo into the container at /app
+        # -w sets the working directory so the script can find its relative data files
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/app \
+            -w /app \
+            mlwood1/scalehd:latest bash ./ContinuousTesting/run_scalehd_tests.sh
 
       - name: Push image to Docker Hub
+        # This only runs if the 'Run ScaleHD tests' step succeeds
         run: |
-          docker tag mlwood1/scalehd:latest mlwood1/scalehd:latest
+          docker tag mlwood1/scalehd:latest mlwood1/scalehd:test
           docker push mlwood1/scalehd:test
-
+          docker push mlwood1/scalehd:latest
