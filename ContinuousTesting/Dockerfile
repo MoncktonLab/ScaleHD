@@ -66,9 +66,17 @@ RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh &
 # Set PATH to use conda
 ENV PATH="/opt/miniconda/bin:$PATH"
 
-RUN conda create -y -n scalenv python=3.12.8 && \
-    /opt/miniconda/bin/conda run -n scalenv pip install --upgrade pip && \
-    conda install -n scalenv -c bioconda freebayes -y
+# Remove defaults conda channel
+RUN conda config --remove channels defaults || true && \
+    conda config --add channels conda-forge && \
+    conda config --set channel_priority strict
+
+# Create and activate conda environment
+RUN conda create -y -n scalenv --override-channels -c conda-forge python=3.12.8 && \
+    /opt/miniconda/bin/conda run -n scalenv pip install --upgrade pip 
+
+# Install Freebayes using Bioconda inside conda environment
+RUN conda install -n scalenv --override-channels -c bioconda -c conda-forge freebayes -y
 
 # Clone and install ScaleHD inside conda environment
 RUN /opt/miniconda/bin/conda run -n scalenv bash -c "\
@@ -79,24 +87,8 @@ RUN /opt/miniconda/bin/conda run -n scalenv bash -c "\
 # Make conda env the default Python
 ENV PATH="/opt/miniconda/envs/scalenv/bin:$PATH"
 
-
-# Copy test script
-COPY run_scalehd_tests.sh run_scalehd_tests.sh
-
-# Copy test data and references
-COPY FastqFiles/ScaleHDTestData_10kMiSeq_R1.fastq.gz ContinuousTesting/FastqFiles/ScaleHDTestData_10kMiSeq_R1.fastq.gz
-COPY FastqFiles/ScaleHDTestData_10kMiSeq_R2.fastq.gz ContinuousTesting/FastqFiles/ScaleHDTestData_10kMiSeq_R2.fastq.gz
-COPY References/4k-HD-INTER.fa ContinuousTesting/References/4k-HD-INTER.fa
-COPY References/4k-HD-Reverse.fasta ContinuousTesting/References/4k-HD-Reverse.fasta
-COPY ConfigurationFile_MiSeq_runX.xml ContinuousTesting/ConfigurationFile_MiSeq_runX.xml
-COPY scalehd_test_expected_checksums.csv ContinuousTesting/scalehd_test_expected_checksums.csv
-
-# Set working directory
-WORKDIR /
-
-# Make test script executable
-RUN chmod +x run_scalehd_tests.sh
-
+# Set the working directory
+WORKDIR .
 
 # Default command: open interactive shell
 CMD ["/bin/bash"]
